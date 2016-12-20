@@ -1,0 +1,48 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,900);
+body {
+    font-family: 'Lato', sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: 40px;
+}
+
+
+.job {
+    background: #ddf;
+}
+
+
+.job a:hover {
+    background: #333;
+}
+
+
+.job span {
+    display: block;
+    padding: 20px;
+    margin: 10px 10px 10px 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.job span button {
+    padding: 10px;
+    margin: 5px 5px 5px 5px;
+    text-decoration: none;
+}
+
+.reject{
+	background-color: #ccc;
+	color: #642;
+    padding: 12px;
+}
+
+.approve{
+	background-color: #ccc;
+	color: #642;
+	padding: 12px;
+    font-size: 20px	;
+}
