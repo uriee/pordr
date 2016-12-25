@@ -6,67 +6,18 @@ body {
 
 h1 {
     font-weight: 900;
-    font-size: 40px;
+    font-size: 20px;
 }
 
-table {
-  padding: 0.2em; 
-  vertical-align: middle; 
-  text-align: center; 
-}
-
-tbody {
-
-}
-
-thead{
-
-}
-td{
-	padding: 8px;
-}
-th{
-	padding: 8px;
-}
-
-.job {
-    background: #fff;
-    //border-style: dotted;
-    margin: 10px 10px 10px 10px;
-}
-
-
-.job a:hover {
-    background: #333;
-}
-
-
-.job span {
-    display: block;
-    padding: 10px;
-    margin: 10px 10px 10px 10px;
-    text-decoration: none;
-    color: black;
-}
-
-.job span button {
-    padding: 10px;
-    margin: 5px 5px 5px 5px;
-    text-decoration: none;
-}
 
 .reject{
-	
-	
-    padding: 12px;
+
+
 }
 
 .approve{
 	
-	
-	padding: 12px;
-	margin: 5px 50px 5px 5px;
-    font-size: 20px	;
+
 }
 
 .green {

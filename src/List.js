@@ -2,20 +2,58 @@ import React from 'react';
 import axios from 'axios';
 import './App.css';
 import './Ordi.js';
+import Button from 'react-bootstrap/lib/Button';
+import Modal from 'react-bootstrap/lib/Modal';
+import Table from 'react-bootstrap/lib/Table';
+import FormControl from 'react-bootstrap/lib/FormControl';
 
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 var Ordi = React.createClass({
   displayname: "Ordi",
 
-  handleClick: function(e){
+  getInitialState() {
+    return { showModal: false ,
+             startDate: moment()
+           };
+  },
+
+  close() {
+    this.setState({ showModal: false });
+  },
+
+  open() {
+    this.setState({ showModal: true });
+  },
+
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  },
+
+  handleApprove: function(e){
     e.preventDefault();
-    if((e.target.value)==='A') {this.props.remove(this.props.value.ORDI)}
-    console.log(this.props.value.ORDI,e.target.value);
-
-    this.serverRequest = axios.get("http://192.168.7.223:4000/updateordi/"+this.props.value.ORDI+"/"+e.target.value).then(function (result) {
-
+    var This = this;
+    this.serverRequest = axios.get("http://192.168.7.223:4000/updateordi/"+this.props.value.ORDI+"/A").then(function (result) {
+    This.props.remove(This.props.value.ORDI);
     });    
   },
+
+  handleReject: function(e){
+    e.preventDefault();
+    this.setState({ showModal: true })
+  }, 
+
+   reject: function(){
+    var This = this;
+    this.setState({ showModal: false });    
+    this.serverRequest = axios.get("http://192.168.7.223:4000/updateordi/"+this.props.value.ORDI+"/R").then(function (result) {
+    This.props.remove(This.props.value.ORDI);
+    }); 
+   },
 
     render: function render() {  
         return (
@@ -24,8 +62,31 @@ var Ordi = React.createClass({
           <td>{this.props.value.BAL}</td>
           <td>{this.props.value.ORDNAME}-{this.props.value.LINE}</td>
           <td>{this.props.value.DATE}</td>
-          <td><button className='approve' onClick={this.handleClick} value='A'> Approve </button>
-          <button className='reject' onClick={this.handleClick} value='R'> There is a Problem </button></td>
+          <td><Button className='approve' bsStyle="primary" bsSize="large" onClick={this.handleApprove} block> Approve </Button>
+          <Button className='reject' bsSize="xsmall" onClick={this.handleReject}  block> Change Status </Button></td>   
+<Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Arrival Data</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>Please enter youre comments here:</h4>
+                <FormControl
+                  id="formControlsText"
+                  type="text"
+                  label="Text"
+                  placeholder="Enter text"
+                />
+            <h4>Please enter the new Due Date:</h4>                
+      <DatePicker
+        selected={this.state.startDate}
+        onChange={this.handleChange}
+      />                
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.reject}>Update</Button>
+            <Button onClick={this.close}>Close</Button>
+          </Modal.Footer>
+        </Modal>                     
           </tr>
         ) 
   }
@@ -66,9 +127,10 @@ var List = React.createClass({
     return (
       <div>
       <h1>Due to arrive to Silora R&D in the next Week:</h1>
-      <table>
+      <Table>
           <thead>
           <tr>
+
             <th>Part Name</th>
             <th>Quantity</th>
             <th>Order Name</th>
@@ -82,7 +144,7 @@ var List = React.createClass({
           )}
         )}
       </tbody>
-      </table>
+      </Table>
       </div>
     )
   }
