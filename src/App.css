@@ -9,9 +9,30 @@ h1 {
     font-size: 40px;
 }
 
+table {
+  padding: 0.2em; 
+  vertical-align: middle; 
+  text-align: center; 
+}
+
+tbody {
+
+}
+
+thead{
+
+}
+td{
+	padding: 8px;
+}
+th{
+	padding: 8px;
+}
 
 .job {
-    background: #ddf;
+    background: #fff;
+    //border-style: dotted;
+    margin: 10px 10px 10px 10px;
 }
 
 
@@ -22,7 +43,7 @@ h1 {
 
 .job span {
     display: block;
-    padding: 20px;
+    padding: 10px;
     margin: 10px 10px 10px 10px;
     text-decoration: none;
     color: black;
@@ -35,14 +56,19 @@ h1 {
 }
 
 .reject{
-	background-color: #ccc;
-	color: #642;
+	
+	
     padding: 12px;
 }
 
 .approve{
-	background-color: #ccc;
-	color: #642;
+	
+	
 	padding: 12px;
+	margin: 5px 50px 5px 5px;
     font-size: 20px	;
+}
+
+.green {
+    background-color: lightgreen;
 }

@@ -9,23 +9,24 @@ var Ordi = React.createClass({
 
   handleClick: function(e){
     e.preventDefault();
+    if((e.target.value)==='A') {this.props.remove(this.props.value.ORDI)}
     console.log(this.props.value.ORDI,e.target.value);
-    var th = this;
+
     this.serverRequest = axios.get("http://192.168.7.223:4000/updateordi/"+this.props.value.ORDI+"/"+e.target.value).then(function (result) {
-      th.setState({
-        ordis: result.data
-      });
+
     });    
   },
 
     render: function render() {  
         return (
-          <div className="job" key={this.props.value.ordi}>
-            <span>Order {this.props.value.ORDNAME}-{this.props.value.LINE} has {this.props.value.BAL} pieces of {this.props.value.PARTNAME} that need to arrive at {this.props.value.DATE}
-              <button className='approve' onClick={this.handleClick} value='A'> Approved </button>
-              <button className='reject' onClick={this.handleClick} value='R'> There is a Problem </button>          
-            </span>
-          </div>
+          <tr ref={this.props.value.ORDI} >
+          <td>{this.props.value.PARTNAME}</td>
+          <td>{this.props.value.BAL}</td>
+          <td>{this.props.value.ORDNAME}-{this.props.value.LINE}</td>
+          <td>{this.props.value.DATE}</td>
+          <td><button className='approve' onClick={this.handleClick} value='A'> Approve </button>
+          <button className='reject' onClick={this.handleClick} value='R'> There is a Problem </button></td>
+          </tr>
         ) 
   }
 })
@@ -41,7 +42,6 @@ var List = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    // Is there a React-y way to avoid rebinding `this`? fat arrow?
     var th = this;
     /*this.serverRequest = axios.get("http://192.168.7.223:4000/feedback/"+this.props.value).then(function (result) {*/
     this.serverRequest = axios.get("http://192.168.7.223:4000/feedback/22").then(function (result) {      
@@ -55,31 +55,50 @@ var List = React.createClass({
     this.serverRequest.abort();
   },
 
+  remove(id){
+  this.setState({
+    ordis: this.state.ordis.filter((el) => id !== el.ORDI)
+  }) 
+},
 
   render: function render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h1",
-        null,
-        "Due to arrive to Silora R&D in the next Week:"
-      ),
-
-      this.state.ordis.map(function(ordi) {
-        return (<Ordi key={ordi.ORDI} value={ordi}></Ordi>)
-        /*
-       return React.createElement(
-        "Ordi",
-        {key: ordi.ORDI ,value: ordi}
-      )
-      */
-      })
-  )}
-
-    
+    var THIS = this;
+    return (
+      <div>
+      <h1>Due to arrive to Silora R&D in the next Week:</h1>
+      <table>
+          <thead>
+          <tr>
+            <th>Part Name</th>
+            <th>Quantity</th>
+            <th>Order Name</th>
+            <th>Due Date</th>
+            </tr>
+          </thead>      
+          <tbody>
+      {this.state.ordis.map(function(ordi) {
+        return (
+            <Ordi key={ordi.ORDI} value={ordi} remove={THIS.remove}></Ordi>
+          )}
+        )}
+      </tbody>
+      </table>
+      </div>
+    )
+  }
+  
 });
 
 
 export default List;
 
+/*
+        return (
+          <div className="job" key={this.props.value.ordi}>
+            <span>Order {this.props.value.ORDNAME}-{this.props.value.LINE} has {this.props.value.BAL} pieces of {this.props.value.PARTNAME} that need to arrive at {this.props.value.DATE}
+              <button className='approve' onClick={this.handleClick} value='A'> Approved </button>
+              <button className='reject' onClick={this.handleClick} value='R'> There is a Problem </button>          
+            </span>
+          </div>
+        ) 
+        */
