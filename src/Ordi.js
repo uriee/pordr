@@ -15,7 +15,8 @@ export const Ordi = React.createClass({
 
   getInitialState() {
     return { showModal: false ,
-             startDate: moment()
+             startDate: moment(),
+             text:''
            };
   },
 
@@ -27,11 +28,18 @@ export const Ordi = React.createClass({
     this.setState({ showModal: true });
   },
 
-  handleChange(date) {
+  handleDateChange(date) {
     this.setState({
       startDate: date
     });
   },
+
+  handleTextChange(event) {
+    this.setState({
+      text: event.target.value
+    });
+  },
+
 
   handleApprove: function(e){
     e.preventDefault();
@@ -48,8 +56,9 @@ export const Ordi = React.createClass({
 
    reject: function(){
     var This = this;
+    console.log(this.state.startDate.unix());
     this.setState({ showModal: false });    
-    this.serverRequest = axios.get("http://192.168.7.223:4000/reject/"+this.props.value.ORDI+"/"+this.props.value.ORDI).then(function (result) {
+    this.serverRequest = axios.get("http://192.168.7.223:4000/reject/"+this.props.value.ORDI+"/"+this.state.text+"/"+(this.state.startDate.unix()/60-567993600/60)).then(function (result) {
     This.props.remove(This.props.value.ORDI);
     }); 
    },
@@ -84,12 +93,13 @@ export const Ordi = React.createClass({
                       type="text"
                       label="Text"
                       placeholder="Enter text"
+                      onChange={this.handleTextChange}
                     />
                     <h4>Please enter the new Due Date:</h4>                
                     <DatePicker
                       id="datepicker"
                       selected={this.state.startDate}
-                      onChange={this.handleChange}
+                      onChange={this.handleDateChange}
                     />                
                   </Modal.Body>
                   <Modal.Footer>

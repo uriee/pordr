@@ -17,7 +17,7 @@ const List = React.createClass({
   componentDidMount: function componentDidMount() {
     var th = this;
     /*this.serverRequest = axios.get("http://192.168.7.223:4000/feedback/"+this.props.value).then(function (result) {*/
-    this.serverRequest = axios.get("http://192.168.7.223:4000/feedback/111").then(function (result) { 
+    this.serverRequest = axios.get("http://192.168.7.223:4000/feedback/500").then(function (result) { 
       //console.log(result.data)     ;
       th.setState({
         ordis: result.data,
